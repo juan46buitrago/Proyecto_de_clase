@@ -3,73 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Productos</title>
+    <title>Productos — MiTienda</title>
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 </head>
 <body>
 
-    {{-- NAVBAR --}}
-    <nav>
-        <a href="/" class="brand">🛍️ MiTienda</a>
-        <div class="nav-links">
-            <a href="/">Inicio</a>
-            <a href="/product" class="active">Productos</a>
-            <a href="/product/create">Agregar</a>
-        </div>
-    </nav>
+    @include('layout.navbar') 
 
-    {{-- CONTENIDO --}}
-    <div class="container">
+    <main class="main-content">
+        <div class="container">
 
-        <div class="page-header">
-            <h1>Lista de Productos</h1>
-            <a href="/product/create" class="btn btn-primary">+ Nuevo Producto</a>
-        </div>
+            <div class="page-header">
+                <div>
+                    <h1>Nuestros <em>Productos</em></h1>
+                    <p>3 productos disponibles</p>
+                </div>
+                <a href="/product/create" class="btn btn-accent">+ Agregar producto</a>
+            </div>
 
-        {{-- LISTA DE PRODUCTOS --}}
-        @if(isset($productos) && count($productos) > 0)
+            <p class="section-label">Catálogo</p>
 
             <div class="products-grid">
-                @foreach($productos as $producto)
-                <div class="product-card">
 
-                    {{-- IMAGEN --}}
-                    @if($producto['imagen'] ?? null)
-                        <img src="{{ $producto['imagen'] }}" alt="{{ $producto['nombre'] }}" class="card-image">
-                    @else
-                        <div class="card-image-placeholder">📦</div>
-                    @endif
-
+                {{-- Producto 1 --}}
+                <a href="/product/1" class="product-card">
+                    <div class="card-img-wrap">
+                        <img
+                            src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80"
+                            alt="Sneaker Air Volt"
+                        >
+                        <div class="card-img-overlay">
+                            <span class="badge badge-active">activo</span>
+                        </div>
+                        <div class="card-id-tag">#0001</div>
+                    </div>
                     <div class="card-body">
-                        <p class="card-id">#{{ $producto['id'] }}</p>
-                        <h3>{{ $producto['nombre'] }}</h3>
-                        <p class="price">${{ number_format($producto['precio'], 2) }}</p>
-                        <p class="description">{{ $producto['descripcion'] }}</p>
+                        <div class="card-name">Sneaker Air Volt</div>
+                        <div class="card-desc">
+                            Zapatilla de alto rendimiento con suela de amortiguación avanzada.
+                            Diseño ergonómico y transpirable para uso diario o deportivo.
+                        </div>
                     </div>
-
-                    <div class="card-footer">
-                        <span class="badge {{ $producto['estado'] === 'activo' ? 'badge-active' : 'badge-inactive' }}">
-                            {{ $producto['estado'] }}
-                        </span>
-                        <a href="/product/{{ $producto['id'] }}" class="btn btn-secondary">Ver detalle</a>
+                    <div class="card-footer-strip">
+                        <span class="card-price">$249.900</span>
+                        <span class="btn btn-ghost" style="font-size:0.8rem;padding:0.35rem 0.85rem;">Ver →</span>
                     </div>
+                </a>
 
-                </div>
-                @endforeach
+                {{-- Producto 2 --}}
+                <a href="/product/2" class="product-card">
+                    <div class="card-img-wrap">
+                        <img
+                            src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80"
+                            alt="Mochila Trekker 30L"
+                        >
+                        <div class="card-img-overlay">
+                            <span class="badge badge-active">activo</span>
+                        </div>
+                        <div class="card-id-tag">#0002</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Mochila Trekker 30L</div>
+                        <div class="card-desc">
+                            Mochila resistente al agua con capacidad de 30 litros,
+                            múltiples compartimentos y soporte lumbar para aventuras largas.
+                        </div>
+                    </div>
+                    <div class="card-footer-strip">
+                        <span class="card-price">$189.900</span>
+                        <span class="btn btn-ghost" style="font-size:0.8rem;padding:0.35rem 0.85rem;">Ver →</span>
+                    </div>
+                </a>
+
+                {{-- Producto 3 --}}
+                <a href="/product/3" class="product-card">
+                    <div class="card-img-wrap">
+                        <img
+                            src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&q=80"
+                            alt="Reloj Minimalista Nero"
+                        >
+                        <div class="card-img-overlay">
+                            <span class="badge badge-inactive">inactivo</span>
+                        </div>
+                        <div class="card-id-tag">#0003</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-name">Reloj Minimalista Nero</div>
+                        <div class="card-desc">
+                            Reloj de diseño minimalista con correa de cuero genuino.
+                            Mecanismo de cuarzo japonés y resistencia al agua de 50m.
+                        </div>
+                    </div>
+                    <div class="card-footer-strip">
+                        <span class="card-price">$379.000</span>
+                        <span class="btn btn-ghost" style="font-size:0.8rem;padding:0.35rem 0.85rem;">Ver →</span>
+                    </div>
+                </a>
+
             </div>
+        </div>
+    </main>
 
-        @else
-
-            {{-- ESTADO VACÍO --}}
-            <div class="empty-state">
-                <div class="empty-icon">📭</div>
-                <p>No hay productos registrados aún.</p>
-                <a href="/product/create" class="btn btn-primary">Agregar primer producto</a>
-            </div>
-
-        @endif
-
-    </div>
+    @include('layout.footer')
 
 </body>
 </html>
