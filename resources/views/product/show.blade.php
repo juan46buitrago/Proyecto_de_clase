@@ -1,14 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detalle del Producto — MiTienda</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-
-    @include('layout.nabvar')
+@extends('layout.app')
+@section('title', 'Detalle del producto')
+@section('content')
 
     <main class="main-content">
         <div class="container">
@@ -75,6 +67,4 @@
         </div>
     </main>
 
-    @include('layout.footer')
-</body>
-</html>
+@endsection
