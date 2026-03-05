@@ -20,17 +20,22 @@
                     <a href="/product/{{ $p->id }}" class="product-card">
                         <div class="card-img-wrap">
                             <img
-                                src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80"
+                                src="{{ $p->img ?? 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80' }}"
                                 alt="{{ $p->name }}"
                             >
                             <div class="card-img-overlay">
-                                <span class="badge badge-active">activo</span>
+                                <span class="badge {{ $p->state == 'Disponible' ? 'badge-active' : 'badge-inactive' }}">
+                                    {{ $p->state ?? 'activo' }}
+                                </span>
                             </div>
                             <div class="card-id-tag">#{{ str_pad($p->id, 4, '0', STR_PAD_LEFT) }}</div>
                         </div>
                         <div class="card-body">
                             <div class="name">{{ $p->name }}</div>
-                            <div class="card-desc">{{ $p->description }}</div>
+                            <div class="card-desc">{{ Str::limit($p->description, 80) }}</div>
+                            <div style="font-size:0.78rem;color:var(--muted);margin-top:0.3rem;">
+                                Categoría: {{ $p->category->name ?? $p->category_id }}
+                            </div>
                         </div>
                         <div class="card-footer-strip">
                             <span class="price">${{ number_format($p->price, 0, ',', '.') }}</span>

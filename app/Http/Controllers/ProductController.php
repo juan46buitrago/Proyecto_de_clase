@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Product;
-
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -16,10 +16,28 @@ class ProductController extends Controller
 
     public function create()
     {
-        return view('product.create');
-    }
+                $categoryList = Category::all();
+
+        return view('product.create',['categories'=>$categoryList]);
+    
+    
+        }
 
     public function show ($producto){
         return view('product.show', compact('producto'));
     }
-}
+public function store(Request $request){
+       
+
+        $newproduct = new Product();
+        $newproduct->name = $request->get('nombre');
+        $newproduct->description = $request->input('descripcion');
+        $newproduct->price = $request->input('precio');
+        $newproduct->category_id = $request->input('categoria');
+
+        $newproduct->save();
+
+        return redirect()->route('product.index');
+        }
+
+    }

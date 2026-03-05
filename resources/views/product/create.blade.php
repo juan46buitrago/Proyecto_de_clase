@@ -21,7 +21,7 @@
                         Información del Producto
                     </div>
 
-                    <form action="/product" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('product.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
                         <div class="form-row">
@@ -79,6 +79,22 @@
                             @enderror
                         </div>
 
+                        {{-- CATEGORÍA --}}
+                        <div class="form-group">
+                            <label class="form-label" for="categoria">Categoría</label>
+                            <select id="categoria" name="categoria" class="form-control" required>
+                                <option value="">-- Selecciona una categoría --</option>
+                                @foreach($categories as $c)
+                                    <option value="{{ $c->id }}" {{ old('categoria') == $c->id ? 'selected' : '' }}>
+                                        {{ $c->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('categoria')
+                                <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
+                            @enderror
+                        </div>
+
                         {{-- IMAGEN --}}
                         <div class="form-group">
                             <label class="form-label" for="imagen">Imagen del Producto</label>
@@ -112,8 +128,6 @@
         </div>
     </main>
 
-    
-
     <script>
         function previewImg(event) {
             const file = event.target.files[0];
@@ -122,11 +136,9 @@
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                // Ocultar iconos
                 document.getElementById('upload-icon').style.display = 'none';
                 document.getElementById('upload-text').style.display = 'none';
 
-                // Mostrar imagen preview
                 let img = area.querySelector('img.img-preview');
                 if (!img) {
                     img = document.createElement('img');
