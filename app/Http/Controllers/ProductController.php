@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
@@ -9,35 +8,35 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $ProductList = Product::all();
-
-        return view('product.index',['misProductos'=>$ProductList]);
+        $ProductList = Product::with('category')->limit(20)->orderBy('id','desc')->get();
+        return view('product.index', ['misProductos' => $ProductList]);
     }
 
     public function create()
     {
-                $categoryList = Category::all();
+        $categoryList = Category::all();
+        return view('product.create', ['categories' => $categoryList]);
+    }
 
-        return view('product.create',['categories'=>$categoryList]);
-    
-    
-        }
-
-    public function show ($producto){
+    public function show($producto)
+    {
         return view('product.show', compact('producto'));
     }
-public function store(Request $request){
-       
 
+    public function store(Request $request)
+    {
         $newproduct = new Product();
         $newproduct->name = $request->get('nombre');
         $newproduct->description = $request->input('descripcion');
         $newproduct->price = $request->input('precio');
         $newproduct->category_id = $request->input('categoria');
 
-        $newproduct->save();
-
-        return redirect()->route('product.index');
+        if ($request->hasFile('imagen')) {
+            $ruta = $request->file('imagen')->store('images', 'public');
+            $newproduct->image = $ruta;
         }
 
+        $newproduct->save();
+        return redirect()->route('product.index');
     }
+}

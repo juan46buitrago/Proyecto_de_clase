@@ -19,14 +19,13 @@
                 @foreach($misProductos as $p)
                     <a href="/product/{{ $p->id }}" class="product-card">
                         <div class="card-img-wrap">
-                            <img
-                                src="{{ $p->img ?? 'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80' }}"
-                                alt="{{ $p->name }}"
-                            >
+                            @if($p->image)
+                                <img src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->name }}">
+                            @else
+                                <img src="https://www.shutterstock.com/image-vector/defect-icon-element-design-600nw-2615276675.jpg" alt="Sin imagen">
+                            @endif
                             <div class="card-img-overlay">
-                                <span class="badge {{ $p->state == 'Disponible' ? 'badge-active' : 'badge-inactive' }}">
-                                    {{ $p->state ?? 'activo' }}
-                                </span>
+                                <span class="badge badge-active">activo</span>
                             </div>
                             <div class="card-id-tag">#{{ str_pad($p->id, 4, '0', STR_PAD_LEFT) }}</div>
                         </div>
