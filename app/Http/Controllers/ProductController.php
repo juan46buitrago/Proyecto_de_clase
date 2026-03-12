@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ProductController extends Controller
 {
@@ -51,5 +52,10 @@ class ProductController extends Controller
 
         $newproduct->save();
         return redirect()->route('product.index');
+    }
+
+    public function destroy(Product $product){
+        $product->delete();
+        return Redirect()->route('product.index');
     }
 }
