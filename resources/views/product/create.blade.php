@@ -36,11 +36,11 @@
                                     class="form-control"
                                     value="{{ old('nombre', 'Chaqueta Urban Pro') }}"
                                     placeholder="Ej: Camiseta Básica"
-                                    required
                                 >
                                 @error('nombre')
-                                    <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
+                                    <span style="font-size:0.78rem;color:red;">{{ $message }}</span>
                                 @enderror
+
                             </div>
 
                             {{-- PRECIO --}}
@@ -55,11 +55,11 @@
                                     placeholder="0"
                                     step="0.01"
                                     min="0"
-                                    required
                                 >
                                 @error('precio')
-                                    <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
+                                    <span style="font-size:0.78rem;color:red;">{{ $message }}</span>
                                 @enderror
+
                             </div>
 
                         </div>
@@ -72,11 +72,11 @@
                                 name="descripcion"
                                 class="form-control"
                                 placeholder="Describe características, materiales, tallas..."
-                                required
                             >{{ old('descripcion', 'Chaqueta de corte moderno con forro interior térmico. Ideal para clima frío y uso urbano diario. Disponible en tallas S al XL.') }}</textarea>
                             @error('descripcion')
-                                <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
+                                <span style="font-size:0.78rem;color:red;">{{ $message }}</span>
                             @enderror
+
                         </div>
 
                         {{-- CATEGORÍA --}}
@@ -106,13 +106,14 @@
                                     accept="image/*"
                                     onchange="previewImg(event)"
                                 >
+                                @error('imagen')
+                                    <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
+                                @enderror
                                 <div class="img-upload-icon" id="upload-icon">📷</div>
                                 <div class="img-upload-text" id="upload-text">Haz clic o arrastra una imagen aquí</div>
                             </div>
                             <p class="form-hint">JPG, PNG o WEBP — Máx. 2MB</p>
-                            @error('imagen')
-                                <span style="font-size:0.78rem;color:var(--danger);">{{ $message }}</span>
-                            @enderror
+
                         </div>
 
                         {{-- ACCIONES --}}

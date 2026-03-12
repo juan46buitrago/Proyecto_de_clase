@@ -20,12 +20,25 @@ class ProductController extends Controller
 
     public function show($producto)
     {
-        return view('product.show', compact('producto'));
+        $p = Product::findOrFail($producto);
+        return view('product.show', compact('p'));
     }
 
     public function store(Request $request)
     {
-        $newproduct = new Product();
+        //validacion
+        $request ->validate([
+        'nombre'=>'required|min:5|max:250',
+        'precio'=>'required|numeric',
+        'descripcion'=>'required',
+        'imagen'=>'required|image',
+        'categoria'=>'required|exists:categories,id'
+        ]);
+    
+    
+    
+    
+    $newproduct = new Product();
         $newproduct->name = $request->get('nombre');
         $newproduct->description = $request->input('descripcion');
         $newproduct->price = $request->input('precio');
