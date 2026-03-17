@@ -1,4 +1,5 @@
 @extends('layout.app')
+{{-- Landing page --}}
 @section('title', 'JetProduct — Gestión de Inventario')
 @section('content')
 
