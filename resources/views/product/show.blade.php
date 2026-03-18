@@ -57,9 +57,21 @@
                     </div>
                     @endif
 
+                    @if(session('added'))
+                        <div style="background:rgba(74,222,128,0.1); border:1px solid rgba(74,222,128,0.3); border-radius:10px; padding:0.75rem 1rem; font-size:0.85rem; color:var(--success); margin-bottom:1rem;">
+                            ✅ <strong>{{ session('added') }}</strong> agregado al carrito.
+                            <a href="{{ route('cart.index') }}" style="color:var(--accent); font-weight:600; margin-left:0.5rem;">Ver carrito →</a>
+                        </div>
+                    @endif
+
                     <div class="show-actions">
-                        <a href="/product" class="btn btn-ghost">← Volver a la lista</a>
-                        <a href="/product/create" class="btn btn-accent">+ Nuevo producto</a>
+                        <a href="/product" class="btn btn-ghost">← Volver</a>
+                        <form action="{{ route('cart.add', $p) }}" method="POST" style="margin:0;">
+                            @csrf
+                            <button type="submit" class="btn btn-accent" style="font-size:1rem; padding:0.65rem 1.5rem;">
+                                🛒 Agregar al carrito
+                            </button>
+                        </form>
                     </div>
 
                 </div>

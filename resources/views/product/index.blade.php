@@ -10,7 +10,15 @@
                     <h1>Nuestros <em>Productos</em></h1>
                     <p>{{ $misProductos->count() }} productos disponibles</p>
                 </div>
-                <a href="/product/create" class="btn btn-accent">+ Agregar producto</a>
+                <div style="display:flex; gap:0.75rem;">
+                    @php $cartCount = count(session('cart', [])); @endphp
+                    @if($cartCount > 0)
+                        <a href="{{ route('cart.index') }}" class="btn btn-ghost">
+                            🛒 Carrito ({{ $cartCount }})
+                        </a>
+                    @endif
+                    <a href="/product/create" class="btn btn-accent">+ Agregar producto</a>
+                </div>
             </div>
 
             <p class="section-label">Catálogo</p>
