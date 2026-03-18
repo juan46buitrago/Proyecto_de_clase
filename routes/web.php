@@ -6,6 +6,7 @@ use Faker\Guesser\Name;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class);
+Route::get('/admin', fn() => view('admin.index'))->name('admin.index');
 
 Route::prefix('product')->controller(ProductController::class)->group(function(){
 Route::get('/', 'index')->name('product.index');   

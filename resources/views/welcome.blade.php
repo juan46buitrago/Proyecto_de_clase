@@ -32,14 +32,12 @@
             </div>
         </div>
 
-        {{-- Fondo decorativo --}}
         <div style="position: absolute; top: -120px; left: 50%; transform: translateX(-50%);
                     width: 700px; height: 700px; border-radius: 50%;
                     background: radial-gradient(circle, rgba(232,255,71,0.06) 0%, transparent 70%);
                     pointer-events: none;"></div>
     </section>
 
-    {{-- DIVISOR --}}
     <div class="container">
         <div style="height: 1px; background: var(--border); margin-bottom: 4rem;"></div>
     </div>
@@ -126,7 +124,6 @@
         <div class="container">
             <div style="background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 4rem 2.5rem; text-align: center; position: relative; overflow: hidden;">
 
-                {{-- Glow decorativo --}}
                 <div style="position: absolute; bottom: -80px; left: 50%; transform: translateX(-50%);
                             width: 500px; height: 300px; border-radius: 50%;
                             background: radial-gradient(circle, rgba(232,255,71,0.08) 0%, transparent 70%);
