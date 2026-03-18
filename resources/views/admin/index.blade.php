@@ -137,7 +137,7 @@
         </div>
     </div>
 
-    <div class="panel">
+    <div class="panel" style="margin-bottom:1.25rem;">
         <div class="panel-header">
             <div class="panel-title">Actividad reciente</div>
             <span style="font-size:0.75rem; color:var(--muted);">Hoy</span>
@@ -163,5 +163,118 @@
             </div>
         </div>
     </div>
+
+    {{-- ══════════════════════════════════════
+         CATEGORÍAS — CRUD completo
+    ══════════════════════════════════════ --}}
+    <div id="categorias" style="display:grid; grid-template-columns:1fr 380px; gap:1.25rem; align-items:start;">
+
+        {{-- TABLA --}}
+        <div class="panel">
+            <div class="panel-header">
+                <div class="panel-title">🗂️ Categorías</div>
+                <span style="font-size:0.78rem; color:var(--muted);">{{ $categories->count() }} registradas</span>
+            </div>
+
+            @if($categories->isEmpty())
+                <div style="padding:2.5rem; text-align:center; color:var(--muted);">
+                    <div style="font-size:2rem; margin-bottom:0.5rem;">🗂️</div>
+                    <p style="font-size:0.85rem;">No hay categorías aún. Crea una desde el formulario.</p>
+                </div>
+            @else
+                <table class="data-table">
+                    <thead>
+                        <tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr>
+                    </thead>
+                    <tbody>
+                        @foreach($categories as $cat)
+                            <tr>
+                                <td class="td-id">#{{ str_pad($cat->id, 3, '0', STR_PAD_LEFT) }}</td>
+                                <td style="font-weight:600;">{{ $cat->name }}</td>
+                                <td style="color:var(--muted); font-size:0.8rem;">{{ Str::limit($cat->description, 55) }}</td>
+                                <td class="td-actions">
+                                    <button onclick="toggleEdit({{ $cat->id }}, '{{ addslashes($cat->name) }}', '{{ addslashes($cat->description) }}')"
+                                            class="tbl-btn tbl-btn-edit">✏️ Editar</button>
+                                    <form action="{{ route('admin.categories.destroy', $cat) }}" method="POST"
+                                          onsubmit="return confirm('¿Eliminar {{ $cat->name }}?')">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="tbl-btn tbl-btn-del">✕</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
+        </div>
+
+        {{-- FORMULARIOS --}}
+        <div style="display:flex; flex-direction:column; gap:1rem;">
+
+            <div class="panel" id="form-crear">
+                <div class="panel-header"><div class="panel-title">+ Nueva categoría</div></div>
+                <div class="panel-body">
+                    <form action="{{ route('admin.categories.store') }}" method="POST">
+                        @csrf
+                        <div class="form-group">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" name="name" class="form-control"
+                                   value="{{ old('name') }}" placeholder="Ej: Electrónica">
+                            @error('name')<span style="font-size:0.75rem; color:var(--danger);">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea name="description" class="form-control"
+                                      placeholder="Describe la categoría..." style="min-height:80px;">{{ old('description') }}</textarea>
+                            @error('description')<span style="font-size:0.75rem; color:var(--danger);">{{ $message }}</span>@enderror
+                        </div>
+                        <button type="submit" class="btn btn-accent" style="width:100%;">✓ Guardar categoría</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="panel" id="form-editar" style="display:none; border-color:var(--accent);">
+                <div class="panel-header" style="border-color:rgba(232,255,71,0.2);">
+                    <div class="panel-title" style="color:var(--accent);">✏️ Editando categoría</div>
+                    <button onclick="cancelEdit()" style="background:none; border:none; color:var(--muted); cursor:pointer; font-size:1rem;">✕</button>
+                </div>
+                <div class="panel-body">
+                    <form id="edit-form" action="" method="POST">
+                        @csrf
+                        @method('PUT')
+                        <div class="form-group">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" id="edit-name" name="name" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea id="edit-description" name="description" class="form-control" style="min-height:80px;"></textarea>
+                        </div>
+                        <div style="display:flex; gap:0.5rem;">
+                            <button type="button" onclick="cancelEdit()" class="btn btn-ghost" style="flex:1;">Cancelar</button>
+                            <button type="submit" class="btn btn-accent" style="flex:2;">✓ Actualizar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        function toggleEdit(id, name, description) {
+            document.getElementById('edit-form').action = '/admin/categories/' + id;
+            document.getElementById('edit-name').value = name;
+            document.getElementById('edit-description').value = description;
+            document.getElementById('form-editar').style.display = 'block';
+            document.getElementById('form-crear').style.display = 'none';
+            document.getElementById('form-editar').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        function cancelEdit() {
+            document.getElementById('form-editar').style.display = 'none';
+            document.getElementById('form-crear').style.display = 'block';
+        }
+    </script>
 
 @endsection
